@@ -1,9 +1,14 @@
-export default function Footer() {
-    return (
-      <footer className="bg-gray-800 text-white py-4 mt-auto">
-        <div className="container mx-auto text-center">
-          <p>&copy; {new Date().getFullYear()} My Simple Blog. All rights reserved.</p>
-        </div>
-      </footer>
-    );
-  }
+import React from "react";
+import "./Footer.css";
+
+const Footer = () => {
+  return (
+    <footer className="footer">
+      <p>Trần Nguyễn Nhật Cường</p>
+      <p>Trần Đăng Tuấn</p>
+      <p>Huỳnh Gia Khánh</p>
+    </footer>
+  );
+};
+
+export default Footer;
