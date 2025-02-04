@@ -16,17 +16,20 @@ export default function CreateButton({ onSuccess }) {
       return;
     }
 
-    const date = new Date().toISOString().split("T")[0]; // Lấy ngày hiện tại YYYY-MM-DD
-
     try {
-      await axios.post("http://localhost:5000/api/blogs", { title, topics, content, date });
-      onSuccess();
+      const response = await axios.post("http://localhost:5000/api/blogs", {
+        title,
+        topics,
+        content,
+      });
+      onSuccess(response.data); // Gửi dữ liệu mới tạo lên component cha
       setShowModal(false);
       setTitle("");
       setTopics([]);
       setContent("");
     } catch (error) {
       console.error("Lỗi khi tạo blog:", error);
+      alert("Đã xảy ra lỗi khi tạo bài viết!");
     }
   };
 
