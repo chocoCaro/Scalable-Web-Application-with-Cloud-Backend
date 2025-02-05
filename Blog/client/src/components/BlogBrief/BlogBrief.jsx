@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./BlogBrief.css";
 
-const BlogBrief = ({ title, date, topics, content }) => {
+const BlogBrief = ({ key, title, date, topics, content }) => {
   return (
-    <div className="blog-brief">
+    <Link to={`/blog/${key}`} className="blog-brief">
       <div className="blog-header">
         <h2 className="blog-title">{title}</h2>
         <div className="blog-topics">
@@ -16,7 +17,7 @@ const BlogBrief = ({ title, date, topics, content }) => {
       </div>
       <p className="blog-date">{date}</p>
       <p className="blog-content">{content}</p>
-    </div>
+    </Link>
   );
 };
 
