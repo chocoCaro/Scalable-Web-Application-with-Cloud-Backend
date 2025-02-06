@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import CreateButton from "../../components/CreateButton/CreateButton";
+import CreateButton from "../../components/CreateButton";
 import BlogBrief from "../../components/BlogBrief/BlogBrief";
 import "./Home.css";
 
