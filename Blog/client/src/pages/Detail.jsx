@@ -48,8 +48,8 @@ export default function Detail() {
   }
 
   return (
-    <>
-      <div className='w-[1200px] px-[40px] py-[30px] bg-[#efefef] rounded-[15px]'>
+    <div className='w-[1200px]'>
+      <div className='px-[40px] py-[30px] bg-white rounded-[15px] shadow-[2px_2px_10px_rgba(0,0,0,0.1)]'>
         <div className='flex flex-cols gap-[20px] mb-[20px]'>
           <div className='w-[750px]'>
             <p className='text-4xl text-black'>{blog.title}</p>
@@ -125,6 +125,6 @@ export default function Detail() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
-}
+};

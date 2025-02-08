@@ -1,29 +1,20 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "./components/Header/Header";
-import Footer from "./components/Footer/Footer";
-import Home from "./pages/Home/Home";
-import Detail from "./pages/Detail";
-import "./App.css";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import Detail from './pages/Detail';
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
-      <div className="app">
-        <Header />
-        
-        <main className="app-main">
-          <div className="content-container">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/blog/:id" element={<Detail />} />
-            </Routes>
-          </div>
-        </main>
-
-        <Footer />
-      </div>
+      <Header />
+      <main className='flex justify-center min-h-screen py-[110px] bg-[#f0f0f0]'>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/blog/:id' element={<Detail />} />
+        </Routes>
+      </main>
+      <Footer />
     </BrowserRouter>
   );
-}
-
-export default App;
+};

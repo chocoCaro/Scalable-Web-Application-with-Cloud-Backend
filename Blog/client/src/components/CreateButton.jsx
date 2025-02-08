@@ -47,9 +47,9 @@ export default function CreateButton({ onSuccess }) {
     <>
       <button
         onClick={() => setShowModal(true)}
-        className='w-[120px] h-[50px] bg-[#0195f7] rounded-[15px] text-lg text-white font-bold hover:cursor-pointer'
+        className='w-[150px] h-[50px] rounded-[15px] border border-2 border-black text-lg text-black font-bold hover:cursor-pointer hover:bg-[#f0f0f0]'
       >
-        New Post
+        + New Post
       </button>
 
       {showModal && (
@@ -117,17 +117,17 @@ export default function CreateButton({ onSuccess }) {
               </div>
 
               {topicsDropdown && (
-                <div className='absolute w-[150px] h-[90px] bg-white border rounded-b-[15px] overflow-y-scroll'>
+                <ul className='absolute w-[150px] h-[90px] bg-white border rounded-b-[15px] overflow-y-scroll'>
                   {availableTopics.map((topic) => (
-                    <button
+                    <li
                       key={topic}
                       onClick={() => handleAddTopic(topic)}
-                      className='w-full h-[30px] hover:cursor-pointer hover:bg-[#e0e0e0]'
+                      className='flex items-center justify-center w-full h-[30px] hover:cursor-pointer hover:bg-[#e0e0e0]'
                     >
                       {topic}
-                    </button>
+                    </li>
                   ))}
-                </div>
+                </ul>
               )}
 
               <div className='h-[478px] mt-[15px]'>
@@ -144,4 +144,4 @@ export default function CreateButton({ onSuccess }) {
       )}
     </>
   );
-}
+};

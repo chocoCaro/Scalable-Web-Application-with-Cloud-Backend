@@ -6,14 +6,14 @@ let blogs = [
     id: uuidv4(),
     title: 'Introduction to React',
     content: 'React is a JavaScript library for building user interfaces.',
-    topics: ['technology', 'programming'],
+    topics: ['Technology', 'Programming'],
     createdAt: new Date().toISOString(),
   },
   {
     id: uuidv4(),
     title: 'Healthy Lifestyle Tips',
     content: 'Here are some tips for maintaining a healthy lifestyle.',
-    topics: ['lifestyle', 'health'],
+    topics: ['Lifestyle', 'Health'],
     createdAt: new Date().toISOString(),
   },
 ];
