@@ -1,42 +1,42 @@
-import { useState } from "react";
-import axios from "axios";
+import { useState } from 'react';
+import axios from 'axios';
+import clsx from 'clsx';
 
 export default function CreateButton({ onSuccess }) {
   const [showModal, setShowModal] = useState(false);
-  const [title, setTitle] = useState("");
   const [topics, setTopics] = useState([]);
-  const [content, setContent] = useState("");
+  const [topicsDropdown, setTopicsDropdown] = useState(false);
 
-  const availableTopics = ["Technology", "Programming", "Travel", "Health", "Sport"];
+  const availableTopics = ['Technology', 'Programming', 'Travel', 'Health', 'Sport'];
 
   const handleCreate = async () => {
-    if (!title || !content || topics.length === 0) {
-      alert("Vui lòng nhập đầy đủ thông tin!");
+    const title = document.querySelector('textarea[name="title"]').value;
+    const content = document.querySelector('textarea[name="content"]').value;
+
+    if (!title || topics.length === 0 || !content) {
+      alert('Please fill in all fields!');
       return;
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/blogs", {
+      const response = await axios.post('http://localhost:5000/api/blogs', {
         title,
         topics,
         content,
       });
-      onSuccess(response.data); // Gửi dữ liệu mới tạo lên component cha
+      onSuccess(response.data);
       setShowModal(false);
-      setTitle("");
       setTopics([]);
-      setContent("");
     } catch (error) {
-      console.error("Lỗi khi tạo blog:", error);
-      alert("Đã xảy ra lỗi khi tạo bài viết!");
+      console.log('Error creating post:', error);
+      alert('Error creating post!');
     }
   };
 
-  const handleTopicChange = (event) => {
-    const selectedTopic = event.target.value;
-    if (selectedTopic && !topics.includes(selectedTopic)) {
-      setTopics([...topics, selectedTopic]);
-    }
+  const handleAddTopic = (topic) => {
+    if (!topics.includes(topic)) {
+      setTopics([...topics, topic]);
+    };
   };
 
   const removeTopic = (topic) => {
@@ -47,7 +47,7 @@ export default function CreateButton({ onSuccess }) {
     <>
       <button
         onClick={() => setShowModal(true)}
-        className="w-[120px] h-[50px] bg-[#0195f7] rounded-[15px] text-lg text-white font-bold hover:cursor-pointer"
+        className='w-[120px] h-[50px] bg-[#0195f7] rounded-[15px] text-lg text-white font-bold hover:cursor-pointer'
       >
         New Post
       </button>
@@ -72,43 +72,69 @@ export default function CreateButton({ onSuccess }) {
             </div>
             <hr className='border-t-1 border-black' />
             <div className='px-[15px] py-[20px] text-black'>
-              <div>
+              <>
                 <p className='ml-[5px] text-xl font-bold'>Title</p>
                 <textarea
                   name='title'
-                  placeholder="Type your title..."
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder='Type your title...'
                   className='w-full h-[70px] p-[10px] border border-[#b0b0b0] rounded-[15px] resize-none'
                 />
-              </div>
+              </>
               <div className='mt-[15px]'>
                 <p className='ml-[5px] text-xl font-bold'>Topics</p>
-                <div className='flex flex-cols'>
-                  <select onChange={handleTopicChange}>
-                    <option value="">Select Topics</option>
-                    {availableTopics.map((topic) => (
-                      <option key={topic} value={topic}>
-                        {topic}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="flex flex-wrap h-[70px]">
+                <div className='flex flex-cols gap-[15px] h-[50px]'>
+                  <button
+                    onClick={() => setTopicsDropdown(!topicsDropdown)}
+                    className={clsx(
+                      'flex items-center justify-center w-[150px] border hover:cursor-pointer',
+                      {
+                        'rounded-[15px]': !topicsDropdown,
+                        'rounded-t-[15px] border-b-0': topicsDropdown,
+                      }
+                    )}
+                  >
+                    Select topics
+                  </button>
+
+                  {topics.length > 0 && (
+                    <img src='https://img.icons8.com/?size=100&id=p90OKvX0D1vE&format=png&color=000000' />
+                  )}
+
+                  <div className='flex flex-wrap gap-[15px]'>
                     {topics.map((topic) => (
-                      <span key={topic} className="flex items-center bg-[#e0e0e0]">
-                        {topic} <button onClick={() => removeTopic(topic)}>x</button>
+                      <span key={topic} className='flex items-center justify-center gap-[5px] px-[10px] bg-[#e0e0e0] rounded-[15px]'>
+                        {topic}
+                        <button
+                          onClick={() => removeTopic(topic)}
+                          className='text-red-500 font-bold hover:cursor-pointer'
+                        >
+                          x
+                        </button>
                       </span>
                     ))}
                   </div>
                 </div>
               </div>
-              <div className='h-[500px] mt-[15px]'>
+
+              {topicsDropdown && (
+                <div className='absolute w-[150px] h-[90px] bg-white border rounded-b-[15px] overflow-y-scroll'>
+                  {availableTopics.map((topic) => (
+                    <button
+                      key={topic}
+                      onClick={() => handleAddTopic(topic)}
+                      className='w-full h-[30px] hover:cursor-pointer hover:bg-[#e0e0e0]'
+                    >
+                      {topic}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              <div className='h-[478px] mt-[15px]'>
                 <p className='ml-[5px] text-xl font-bold'>Content</p>
                 <textarea
-                  name='title'
-                  placeholder="Type something..."
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
+                  name='content'
+                  placeholder='Type something...'
                   className='w-full h-full p-[10px] border border-[#b0b0b0] rounded-[15px] resize-none'
                 />
               </div>

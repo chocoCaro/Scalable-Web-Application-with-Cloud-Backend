@@ -7,26 +7,23 @@ import "./Home.css";
 export default function Home() {
   const [blogs, setBlogs] = useState([]);
 
-  // Tải dữ liệu blog từ API
-  const loadBlogs = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/api/blogs");
-      setBlogs(response.data);
-    } catch (error) {
-      console.error("Error loading blogs:", error);
-      alert("Đã xảy ra lỗi khi tải bài viết!");
-    }
-  };
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/blogs");
+        setBlogs(response.data);
+      } catch (error) {
+        console.error('Error fetching blogs:', error);
+        alert("Error fetching blogs");
+      }
+    };
 
-  // Thêm bài viết mới vào danh sách
+    fetchBlogs();
+  }, []);
+
   const handleNewBlog = (newBlog) => {
     setBlogs([newBlog, ...blogs]);
   };
-
-  // Tải dữ liệu khi component được render
-  useEffect(() => {
-    loadBlogs();
-  }, []);
 
   return (
     <div className="home-page">
@@ -35,7 +32,6 @@ export default function Home() {
           <h1>Blog List</h1>
           <CreateButton onSuccess={handleNewBlog} />
         </div>
-
         <div className="blog-list">
           {blogs.length > 0 ? (
             blogs.map((blog) => (
