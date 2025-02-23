@@ -1,28 +1,30 @@
+import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 export default function Detail() {
-  // const { id } = useParams();
-  // const [blog, setBlog] = useState(null);
+  const { id } = useParams();
+  const [blog, setBlog] = useState(null);
   const [edit, setEdit] = useState(false);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const fetchBlog = async () => {
-  //     try {
-  //       const response = await axios.get(`http://localhost:5000/api/blogs/${id}`);
-  //       setBlog(response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching blog:', error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/blogs/${id}`);
+        console.log(response.data);
+        setBlog(response.data);
+      } catch (error) {
+        console.error('Error fetching blog:', error);
+      }
+    };
 
-  //   fetchBlog();
-  // }, [id]);
+    fetchBlog();
+  }, [id]);
 
-  // if (!blog) {
-  //   return <div className='loading'>Loading...</div>
-  // };
+  if (!blog) {
+    return <div className='loading'>Loading...</div>
+  };
 
   const handleEdit = () => {
     setEdit(true);
@@ -38,14 +40,6 @@ export default function Detail() {
       }
     }
   };
-
-  const id = 1;
-  const blog = {
-    title: 'Introduction to React',
-    createdAt: '05/02/2025',
-    topic: ['Technology', 'Programming'],
-    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus nec odio molestie ultrices. Nullam sit amet nunc auctor, vehicula nunc nec, fermentum elit. Nullam sit amet nunc auctor, vehicula nunc nec, fermentum elit. Nullam sit amet nunc auctor, vehicula nunc nec, fermentum elit. Nullam sit amet nunc auctor, vehicula nunc nec, fermentum elit. Nullam sit amet nunc auctor, vehicula nunc nec, fermentum elit. Nullam sit amet nunc auctor, vehicula nunc nec, fermentum elit. Nullam sit amet nunc auctor, vehicula nunc nec, fermentum elit. Nullam sit amet nunc auctor, vehicula nunc nec, fermentum elit.'
-  }
 
   return (
     <div className='w-[1200px]'>

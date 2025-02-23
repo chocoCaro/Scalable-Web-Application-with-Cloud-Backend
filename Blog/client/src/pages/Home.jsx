@@ -4,10 +4,11 @@ import FilterButton from '../components/FilterButton';
 import CreateButton from '../components/CreateButton';
 import BlogBrief from '../components/BlogBrief';
 
+
 export default function Home() {
   const [filtering, setFiltering] = useState(false);
   const [blogs, setBlogs] = useState([]);
-
+  
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -15,7 +16,7 @@ export default function Home() {
         setBlogs(response.data);
       } catch (error) {
         console.error('Error fetching blogs:', error);
-        alert('Error fetching blogs');
+        return;
       }
     };
 
@@ -54,6 +55,7 @@ export default function Home() {
             blogs.map((blog) => (
               <BlogBrief
                 key={blog.id}
+                id={blog.id}
                 title={blog.title}
                 date={blog.createdAt.split('T')[0]}
                 topics={blog.topics}

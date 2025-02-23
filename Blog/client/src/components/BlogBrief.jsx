@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 
-export default function BlogBrief({ key, title, date, topics, content }) {
+export default function BlogBrief({ id, title, date, topics, content }) {
   return (
     <Link
-      to={`/blog/${key}`}
+      to={`/blog/${id}`}
       className='w-full p-[20px] rounded-[15px] shadow-[2px_2px_10px_rgba(0,0,0,0.1)]'
     >
       <div className='flex items-start justify-between mb-[8px]'>

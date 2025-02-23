@@ -24,12 +24,13 @@ export default function CreateButton({ onSuccess }) {
         topics,
         content,
       });
+      
       onSuccess(response.data);
       setShowModal(false);
       setTopics([]);
     } catch (error) {
       console.log('Error creating post:', error);
-      alert('Error creating post!');
+      return;
     }
   };
 

@@ -2,29 +2,28 @@ import { v4 as uuidv4 } from 'uuid';
 import { db, Table } from './db.config.js';
 
 // Get all blogs
-const getAllBlogs = async()=>{
+const getAllBlogs = async () => {
   const params = {
-      TableName: Table
-  }
+    TableName: Table,
+  };
 
-  try{
-      const { Items = [] } = await db.scan(params).promise()
-      return { success: true, data: Items }
-
-  } catch(error){
-      return { success: false, data: null }
-  }
-
-}
+  try {
+    const { Items = [] } = await db.scan(params).promise();
+    return Items;
+  } catch (error) {
+    console.log('Error fetching blogs:', error);
+    return null;
+  };
+};
 
 // Get blog by ID
-const getBlogById = async (value, key = 'id') => {
-  const parsedValue = isNaN(value) ? value : parseInt(value); // Keep string if not a number
-
+const getBlogById = async (value, id) => {
+  const id = int(id);
+  
   const params = {
     TableName: Table,
     Key: {
-      [key]: parsedValue,
+      [id]: id,
     },
   };
 
@@ -42,25 +41,39 @@ const getBlogById = async (value, key = 'id') => {
   }
 };
 
+function uuidToIntHash(uuidString) {
+  let hash = 0;
+  if (uuidString.length === 0) return hash;
+  for (let i = 0; i < uuidString.length; i++) {
+    const char = uuidString.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash;
+  };
+  return Math.abs(hash);
+}
+
 // Create a new blog
 const createBlog = async (blog) => {
   const newBlog = {
-    id: uuidv4(),
+    id: uuidToIntHash(uuidv4()),
     createdAt: new Date().toISOString(),
-    ...blog,
+    title: blog.title,
+    topics: blog.topics,
+    content: blog.content,
   };
 
   const params = {
-      TableName: Table,
-      Item: newBlog
+    TableName: Table,
+    Item: newBlog,
   }
 
-  try{
-      await db.put(params).promise()
-      return { success: true }
+  try {
+    await db.put(params).promise();
+    return newBlog;
   }
-  catch(error){
-      return { success: false }
+  catch (error) {
+    console.log('Error creating blog:', error);
+    return null;
   }
 };
 
@@ -73,20 +86,20 @@ const updateBlog = (id, updatedBlog) => {
 };
 
 // Delete a blog
-const deleteBlog = async(value, key = 'id' ) => { 
+const deleteBlog = async (value, key = 'id') => {
   const params = {
-      TableName: Table,
-      Key: {
-          [key]: parseInt(value)
-      }
+    TableName: Table,
+    Key: {
+      [key]: parseInt(value)
+    }
   }
-      
+
   try {
-      await db.delete(params).promise()
-      return { success: true }
+    await db.delete(params).promise()
+    return { success: true }
 
   } catch (error) {
-      return{ success: false }
+    return { success: false }
   }
 }
 
