@@ -21,22 +21,17 @@ app.post('/api/blogs', async (req, res) => {
 });
 
 app.get('/api/blogs/:id', async (req, res) => {
-  console.log(req.params);
-  const blog = await getBlogById(req.params.id);
+  const blog = await getBlogById(parseInt(req.params.id, 10));
   res.json(blog);
 });
 
 app.put('/api/blogs/:id', async (req, res) => {
-  const updatedBlog = updateBlog(req.params.id, req.body);
-  if (updatedBlog) {
-    res.json(updatedBlog);
-  } else {
-    res.status(404).json({ message: 'Blog not found' });
-  }
+  const updatedBlog = await updateBlog(parseInt(req.params.id, 10), req.body);
+  res.json(updatedBlog);
 });
 
-app.delete('/api/blogs/:id', async (req, res) => {
-  deleteBlog(req.params.id);
+app.delete('/api/blogs/:id', (req, res) => {
+  deleteBlog(parseInt(req.params.id, 10));
 });
 
 // Start server

@@ -12,7 +12,6 @@ export default function Detail() {
     const fetchBlog = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/blogs/${id}`);
-        console.log(response.data);
         setBlog(response.data);
       } catch (error) {
         console.error('Error fetching blog:', error);
@@ -26,8 +25,21 @@ export default function Detail() {
     return <div className='loading'>Loading...</div>
   };
 
-  const handleEdit = () => {
-    setEdit(true);
+  const handleEdit = async () => {
+    const title = document.querySelector('textarea[name="title"]').value;
+    const content = document.querySelector('textarea[name="content"]').value;
+
+    try {
+      const response = await axios.put(`http://localhost:5000/api/blogs/${id}`, {
+        title,
+        content,
+      });
+      console.log(response.data);
+      setBlog(response.data);
+      setEdit(false);
+    } catch (error) {
+      console.error('Error updating blog:', error);
+    }
   };
 
   const handleDelete = async () => {
@@ -47,10 +59,10 @@ export default function Detail() {
         <div className='flex flex-cols gap-[20px] mb-[20px]'>
           <div className='w-[750px]'>
             <p className='text-4xl text-black'>{blog.title}</p>
-            <p className='mt-[5px] text-[#555555]'>{blog.createdAt}</p>
+            <p className='mt-[5px] text-[#555555]'>{blog.createdAt.split('T')[0]}</p>
           </div>
           <div className='flex flex-wrap gap-[10px] justify-end w-[350px]'>
-            {blog.topic.map((topic, index) => (
+            {blog.topics.map((topic, index) => (
               <span
                 key={index}
                 className='flex items-center justify-center h-[30px] px-[8px] bg-[#0195f7] rounded-[10px] text-white'
@@ -63,7 +75,7 @@ export default function Detail() {
         <p className='text-black'>{blog.content}</p>
         <div className='grid grid-cols-2 gap-[30px] h-[50px] mt-[20px] font-bold text-lg'>
           <button
-            onClick={handleEdit}
+            onClick={() => setEdit(true)}
             className='bg-white rounded-[15px] border border-black text-black hover:cursor-pointer'
           >
             Edit Post
@@ -89,7 +101,7 @@ export default function Detail() {
               </p>
               <p className='text-2xl text-black'>Edit Post</p>
               <p
-                onClick={() => setEdit(false)}
+                onClick={handleEdit}
                 className='text-lg text-[#0195f7] hover:cursor-pointer'
               >
                 Done
@@ -101,19 +113,17 @@ export default function Detail() {
                 <p className='ml-[5px] text-xl font-bold'>Title</p>
                 <textarea
                   name='title'
+                  defaultValue={blog.title}
                   className='w-full h-[70px] p-[10px] border border-[#b0b0b0] rounded-[15px] resize-none'
-                >
-                  {blog.title}
-                </textarea>
+                />
               </div>
               <div className='h-[570px] mt-[15px]'>
                 <p className='ml-[5px] text-xl font-bold'>Content</p>
                 <textarea
-                  name='title'
+                  name='content'
+                  defaultValue={blog.content}
                   className='w-full h-full p-[10px] border border-[#b0b0b0] rounded-[15px] resize-none'
-                >
-                  {blog.content}
-                </textarea>
+                />
               </div>
             </div>
           </div>
