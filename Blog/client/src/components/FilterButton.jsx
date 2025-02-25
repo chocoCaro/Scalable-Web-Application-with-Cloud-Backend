@@ -3,12 +3,14 @@ import clsx from 'clsx';
 
 export default function FilterButton({ onSuccess }) {
   const [topicsDropdown, setTopicsDropdown] = useState(false);
+  const [filter, setFilter] = useState('');
 
   const availableTopics = ['Technology', 'Programming', 'Travel', 'Health', 'Sport'];
 
   const handleFilter = (topic) => {
-    onSuccess(topic);
+    setFilter(topic);
     setTopicsDropdown(false);
+    onSuccess(topic);
   };
 
   return (
@@ -23,7 +25,21 @@ export default function FilterButton({ onSuccess }) {
           },
         )}
       >
-        Filter topcis
+        {filter ? (
+          <>
+            {filter}
+            <span
+              onClick={() => handleFilter('')}
+              className='ml-[10px] text-sm font-bold'
+            >
+              x
+            </span>
+          </>
+        ) : (
+          <>
+            Filter topcis
+          </>
+        )}
       </button>
 
       {topicsDropdown && (

@@ -10,9 +10,17 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
+// Routes
 app.get('/api/blogs', async (req, res) => {
+  const topic = req.query.topic;
   const blogs = await getAllBlogs();
-  res.json(blogs);
+
+  if (topic) {
+    const filteredBlogs = blogs.filter(blog => blog.topics.includes(topic));
+    return res.json(filteredBlogs);
+  } else {
+    res.json(blogs);
+  }
 });
 
 app.post('/api/blogs', async (req, res) => {
@@ -32,6 +40,14 @@ app.put('/api/blogs/:id', async (req, res) => {
 
 app.delete('/api/blogs/:id', (req, res) => {
   deleteBlog(parseInt(req.params.id, 10));
+  res.json({ message: 'Blog deleted' });
+});
+
+app.get('/api/blogs?topic=:topic', async (req, res) => {
+  console.log(req.params.topic);
+  const blogs = await getAllBlogs();
+  const filteredBlogs = blogs.filter(blog => blog.topics.includes(req.params.topic));
+  res.json(filteredBlogs);
 });
 
 // Start server

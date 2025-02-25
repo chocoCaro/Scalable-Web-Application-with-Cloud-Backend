@@ -29,9 +29,9 @@ export default function Home() {
     }
   };
 
-  const handleFilter = async (topics) => {
+  const handleFilter = async (topic) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/blogs?topics=${topics}`);
+      const response = await axios.get(`http://localhost:5000/api/blogs?topic=${topic}`);
       setBlogs(response.data);
       setFiltering(true);
     } catch (error) {

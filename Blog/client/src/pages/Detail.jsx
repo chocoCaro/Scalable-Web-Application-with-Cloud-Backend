@@ -34,7 +34,6 @@ export default function Detail() {
         title,
         content,
       });
-      console.log(response.data);
       setBlog(response.data);
       setEdit(false);
     } catch (error) {

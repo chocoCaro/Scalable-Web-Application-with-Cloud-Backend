@@ -30,7 +30,7 @@ const getBlogById = async (id) => {
     return Item;
   } catch (error) {
     console.error("Error fetching blog:", error);
-    return;
+    return null;
   }
 };
 
@@ -110,9 +110,9 @@ const deleteBlog = async (id) => {
     await db.delete(params).promise();
   } catch (error) {
     console.log('Error deleting blog:', error);
+  } finally {
+    return;
   }
-
-  return;
 }
 
 export {
