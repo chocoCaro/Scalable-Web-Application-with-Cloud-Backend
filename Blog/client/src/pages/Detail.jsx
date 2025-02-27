@@ -90,7 +90,7 @@ export default function Detail() {
 
       {edit && (
         <div className='flex items-center justify-center fixed w-screen h-screen top-0 left-0 bg-[#00000080] rounded-[15px] z-50'>
-          <div className='w-[900px] h-[800px] bg-white rounded-[15px]'>
+          <div className='w-[900px] h-[80vh] bg-white rounded-[15px]'>
             <div className='flex items-center justify-between h-[50px] px-[15px] font-bold'>
               <p
                 onClick={() => setEdit(false)}
@@ -121,7 +121,7 @@ export default function Detail() {
                 <textarea
                   name='content'
                   defaultValue={blog.content}
-                  className='w-full h-full p-[10px] border border-[#b0b0b0] rounded-[15px] resize-none'
+                  className='w-full h-[calc(80vh-230px)] p-[10px] border border-[#b0b0b0] rounded-[15px] resize-none'
                 />
               </div>
             </div>

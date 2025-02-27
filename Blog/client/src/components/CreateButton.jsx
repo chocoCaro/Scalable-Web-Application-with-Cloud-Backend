@@ -48,14 +48,14 @@ export default function CreateButton({ onSuccess }) {
     <>
       <button
         onClick={() => setShowModal(true)}
-        className='w-[150px] h-[50px] rounded-[15px] border border-2 border-black text-lg text-black font-bold hover:cursor-pointer hover:bg-[#f0f0f0]'
+        className='w-[150px] h-[50px] rounded-[15px] border-2 border-black text-lg text-black font-bold hover:cursor-pointer hover:bg-[#f0f0f0]'
       >
         + New Post
       </button>
 
       {showModal && (
         <div className='fixed flex items-center justify-center w-screen h-screen top-0 left-0 bg-[#00000080] rounded-[15px] z-50'>
-          <div className='w-[900px] h-[800px] bg-white rounded-[15px]'>
+          <div className='w-[900px] h-[80vh] bg-white rounded-[15px]'>
             <div className='flex items-center justify-between h-[50px] px-[15px] font-bold'>
               <p
                 onClick={() => setShowModal(false)}
@@ -136,7 +136,7 @@ export default function CreateButton({ onSuccess }) {
                 <textarea
                   name='content'
                   placeholder='Type something...'
-                  className='w-full h-full p-[10px] border border-[#b0b0b0] rounded-[15px] resize-none'
+                  className='w-full h-[calc(80vh-323px)] p-[10px] border border-[#b0b0b0] rounded-[15px] resize-none'
                 />
               </div>
             </div>
