@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import { getAllBlogs, createBlog, getBlogById, updateBlog, deleteBlog } from './models/Blog.js';
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = 8000;
 
 // Middleware
 app.use(cors());

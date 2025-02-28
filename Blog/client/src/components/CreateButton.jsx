@@ -8,6 +8,7 @@ export default function CreateButton({ onSuccess }) {
   const [topicsDropdown, setTopicsDropdown] = useState(false);
 
   const availableTopics = ['Technology', 'Programming', 'Travel', 'Health', 'Sport'];
+  const port = 8000;
 
   const handleCreate = async () => {
     const title = document.querySelector('textarea[name="title"]').value;
@@ -19,7 +20,7 @@ export default function CreateButton({ onSuccess }) {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/blogs', {
+      const response = await axios.post(`http://localhost:${port}/api/blogs`, {
         title,
         topics,
         content,

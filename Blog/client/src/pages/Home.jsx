@@ -8,11 +8,12 @@ import BlogBrief from '../components/BlogBrief';
 export default function Home() {
   const [filtering, setFiltering] = useState(false);
   const [blogs, setBlogs] = useState([]);
+  const port = 8000;
   
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/blogs');
+        const response = await axios.get(`http://localhost:${port}/api/blogs`);
         setBlogs(response.data);
       } catch (error) {
         console.error('Error fetching blogs:', error);
@@ -31,7 +32,7 @@ export default function Home() {
 
   const handleFilter = async (topic) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/blogs?topic=${topic}`);
+      const response = await axios.get(`http://localhost:${port}/api/blogs?topic=${topic}`);
       setBlogs(response.data);
       setFiltering(true);
     } catch (error) {
