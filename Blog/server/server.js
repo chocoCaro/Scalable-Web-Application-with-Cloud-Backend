@@ -50,13 +50,21 @@ app.get('/api/blogs?topic=:topic', async (req, res) => {
   res.json(filteredBlogs);
 });
 
-// Start server
-const getServerUrl = () => {
-  const isProduction = process.env.NODE_ENV === 'production';  // Check if in production (EC2)
-  const host = isProduction ? 'your-ec2-public-ip' : 'localhost';  // Replace with EC2 public IP
-  return `http://${host}:${PORT}`;
+const getServerUrl = async () => {
+  try {
+    // Attempt to reach the EC2 metadata service (which is only available inside EC2)
+    await axios.get('http://169.254.169.254/latest/meta-data/');
+    const isProduction = true;
+    if (isProduction) {
+      const response = await axios.get('http://169.254.169.254/latest/meta-data/public-ipv4');
+      const host = response.data;  // The public IP of the EC2 instance
+      return `http://${host}:${PORT}`;
+    }
+  } catch (error) {
+    return `http://localhost:${PORT}`;
+  }
 };
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is listening on ${getServerUrl()}`);
+  console.log(`${getServerUrl()}`);
 });
