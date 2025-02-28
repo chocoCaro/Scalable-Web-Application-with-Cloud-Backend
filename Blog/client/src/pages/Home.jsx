@@ -13,7 +13,7 @@ export default function Home() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get(`http://localhost:${port}/api/blogs`);
+        const response = await axios.get(`http://18.143.100.89:${port}/api/blogs`);
         setBlogs(response.data);
       } catch (error) {
         console.error('Error fetching blogs:', error);
@@ -32,7 +32,7 @@ export default function Home() {
 
   const handleFilter = async (topic) => {
     try {
-      const response = await axios.get(`http://localhost:${port}/api/blogs?topic=${topic}`);
+      const response = await axios.get(`http://18.143.100.89:${port}/api/blogs?topic=${topic}`);
       setBlogs(response.data);
       setFiltering(true);
     } catch (error) {

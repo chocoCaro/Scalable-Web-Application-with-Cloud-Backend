@@ -20,7 +20,7 @@ export default function CreateButton({ onSuccess }) {
     }
 
     try {
-      const response = await axios.post(`http://localhost:${port}/api/blogs`, {
+      const response = await axios.post(`http://18.143.100.89:${port}/api/blogs`, {
         title,
         topics,
         content,

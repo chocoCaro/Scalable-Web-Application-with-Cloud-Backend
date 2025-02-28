@@ -14,7 +14,7 @@ export default function Detail() {
       try {
 
 
-        const response = await axios.get(`http://localhost:${port}/api/blogs/${id}`);
+        const response = await axios.get(`http://18.143.100.89:${port}/api/blogs/${id}`);
         setBlog(response.data);
       } catch (error) {
         console.error('Error fetching blog:', error);
@@ -33,7 +33,7 @@ export default function Detail() {
     const content = document.querySelector('textarea[name="content"]').value;
 
     try {
-      const response = await axios.put(`http://localhost:${port}/api/blogs/${id}`, {
+      const response = await axios.put(`http://18.143.100.89:${port}/api/blogs/${id}`, {
         title,
         content,
       });
@@ -47,7 +47,7 @@ export default function Detail() {
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this post?')) {
       try {
-        await axios.delete(`http://localhost:${port}/api/blogs/${id}`);
+        await axios.delete(`http://18.143.100.89:${port}/api/blogs/${id}`);
         navigate('/');
       } catch (error) {
         console.error('Error deleting blog:', error);
