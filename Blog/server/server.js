@@ -54,7 +54,7 @@ const getServerUrl = async () => {
   try {
     // Attempt to reach the EC2 metadata service (which is only available inside EC2)
     await axios.get('http://169.254.169.254/latest/meta-data/');
-    const isProduction = true;
+    const isProduction = true; // We are on EC2
     if (isProduction) {
       const response = await axios.get('http://169.254.169.254/latest/meta-data/public-ipv4');
       const host = response.data;  // The public IP of the EC2 instance
@@ -65,6 +65,13 @@ const getServerUrl = async () => {
   }
 };
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`${getServerUrl()}`);
-});
+// Wrap in an async function to handle async code properly
+const startServer = async () => {
+  const url = await getServerUrl();  // Await the result
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is listening on ${url}`);
+  });
+};
+
+startServer();
+
