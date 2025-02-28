@@ -51,6 +51,12 @@ app.get('/api/blogs?topic=:topic', async (req, res) => {
 });
 
 // Start server
-app.listen(PORT, ('0.0.0.0'), () => {
-  console.log(`Server is listening on http://localhost:${PORT}`);
+const getServerUrl = () => {
+  const isProduction = process.env.NODE_ENV === 'production';  // Check if in production (EC2)
+  const host = isProduction ? 'your-ec2-public-ip' : 'localhost';  // Replace with EC2 public IP
+  return `http://${host}:${PORT}`;
+};
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is listening on ${getServerUrl()}`);
 });
