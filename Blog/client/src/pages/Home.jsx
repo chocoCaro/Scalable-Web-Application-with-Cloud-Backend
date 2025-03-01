@@ -13,6 +13,7 @@ export default function Home() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
+        console.log(import.meta.env.VITE_AWS_PUBLIC_IPV4);
         const response = await axios.get(`http://${import.meta.env.VITE_AWS_PUBLIC_IPV4}:${PORT}/api/blogs`);
         setBlogs(response.data);
       } catch (error) {
