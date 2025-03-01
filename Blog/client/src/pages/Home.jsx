@@ -8,12 +8,13 @@ import BlogBrief from '../components/BlogBrief';
 export default function Home() {
   const [filtering, setFiltering] = useState(false);
   const [blogs, setBlogs] = useState([]);
-  const port = 8000;
+  const PORT = 8000;
   
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get(`http://18.143.100.89:${port}/api/blogs`);
+        const ipv4 = await axios.get('http://169.254.169.254/latest/meta-data/public-ipv4');
+        const response = await axios.get(`http://${ipv4}:${PORT}/api/blogs`);
         setBlogs(response.data);
       } catch (error) {
         console.error('Error fetching blogs:', error);
@@ -32,7 +33,8 @@ export default function Home() {
 
   const handleFilter = async (topic) => {
     try {
-      const response = await axios.get(`http://18.143.100.89:${port}/api/blogs?topic=${topic}`);
+      const ipv4 = await axios.get('http://169.254.169.254/latest/meta-data/public-ipv4');
+      const response = await axios.get(`http://${ipv4}:${PORT}/api/blogs?topic=${topic}`);
       setBlogs(response.data);
       setFiltering(true);
     } catch (error) {

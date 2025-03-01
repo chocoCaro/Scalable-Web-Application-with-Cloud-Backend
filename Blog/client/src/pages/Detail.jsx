@@ -7,14 +7,13 @@ export default function Detail() {
   const [blog, setBlog] = useState(null);
   const [edit, setEdit] = useState(false);
   const navigate = useNavigate();
-  const port = 8000;
+  const PORT = 8000;
   
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-
-
-        const response = await axios.get(`http://18.143.100.89:${port}/api/blogs/${id}`);
+        const ipv4 = await axios.get('http://169.254.169.254/latest/meta-data/public-ipv4');
+        const response = await axios.get(`http://${ipv4}:${PORT}/api/blogs/${id}`);
         setBlog(response.data);
       } catch (error) {
         console.error('Error fetching blog:', error);
@@ -33,7 +32,8 @@ export default function Detail() {
     const content = document.querySelector('textarea[name="content"]').value;
 
     try {
-      const response = await axios.put(`http://18.143.100.89:${port}/api/blogs/${id}`, {
+      const ipv4 = await axios.get('http://169.254.169.254/latest/meta-data/public-ipv4');
+      const response = await axios.put(`http://${ipv4}:${PORT}/api/blogs/${id}`, {
         title,
         content,
       });
@@ -47,7 +47,8 @@ export default function Detail() {
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this post?')) {
       try {
-        await axios.delete(`http://18.143.100.89:${port}/api/blogs/${id}`);
+        const ipv4 = await axios.get('http://169.254.169.254/latest/meta-data/public-ipv4');
+        await axios.delete(`http://${ipv4}:${PORT}/api/blogs/${id}`);
         navigate('/');
       } catch (error) {
         console.error('Error deleting blog:', error);

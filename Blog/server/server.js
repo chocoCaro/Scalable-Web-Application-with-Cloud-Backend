@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import axios from 'axios';
 import { getAllBlogs, createBlog, getBlogById, updateBlog, deleteBlog } from './models/Blog.js';
 
 const app = express();
@@ -52,26 +53,15 @@ app.get('/api/blogs?topic=:topic', async (req, res) => {
 
 const getServerUrl = async () => {
   try {
-    // Attempt to reach the EC2 metadata service (which is only available inside EC2)
-    await axios.get('http://169.254.169.254/latest/meta-data/');
-    const isProduction = true; // We are on EC2
-    if (isProduction) {
-      const response = await axios.get('http://169.254.169.254/latest/meta-data/public-ipv4');
-      const host = response.data;  // The public IP of the EC2 instance
-      return `http://${host}:${PORT}`;
-    }
+    const response = await axios.get('http://169.254.169.254/latest/meta-data/public-ipv4');
+    return response.data;
   } catch (error) {
-    return `http://localhost:${PORT}`;
+    console.log('Error fetching public IP:', error);
+    return 'localhost';
   }
 };
 
-// Wrap in an async function to handle async code properly
-const startServer = async () => {
-  const url = await getServerUrl();  // Await the result
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is listening on ${url}`);
-  });
-};
-
-startServer();
-
+app.listen(PORT, '0.0.0.0', async () => {
+  const ipv4 = await getServerUrl();
+  console.log(`Server is listening on http://${ipv4}:${PORT}`);
+});
