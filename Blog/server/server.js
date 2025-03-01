@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import axios from 'axios';
 import { getAllBlogs, createBlog, getBlogById, updateBlog, deleteBlog } from './models/Blog.js';
 
 const app = express();
@@ -51,17 +50,6 @@ app.get('/api/blogs?topic=:topic', async (req, res) => {
   res.json(filteredBlogs);
 });
 
-const getServerUrl = async () => {
-  try {
-    const response = await axios.get('http://169.254.169.254/latest/meta-data/public-ipv4');
-    return response.data;
-  } catch (error) {
-    console.log('Error fetching public IP:', error);
-    return 'localhost';
-  }
-};
-
 app.listen(PORT, '0.0.0.0', async () => {
-  const ipv4 = await getServerUrl();
-  console.log(`Server is listening on http://${ipv4}:${PORT}`);
+  console.log(`Server is listening on http://${process.env.AWS_PUBLIC_IPV4}:${PORT}`);
 });

@@ -13,8 +13,7 @@ export default function Home() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const ipv4 = await axios.get('http://169.254.169.254/latest/meta-data/public-ipv4');
-        const response = await axios.get(`http://${ipv4}:${PORT}/api/blogs`);
+        const response = await axios.get(`http://${import.meta.env.VITE_AWS_PUBLIC_IPV4}:${PORT}/api/blogs`);
         setBlogs(response.data);
       } catch (error) {
         console.error('Error fetching blogs:', error);
@@ -33,8 +32,7 @@ export default function Home() {
 
   const handleFilter = async (topic) => {
     try {
-      const ipv4 = await axios.get('http://169.254.169.254/latest/meta-data/public-ipv4');
-      const response = await axios.get(`http://${ipv4}:${PORT}/api/blogs?topic=${topic}`);
+      const response = await axios.get(`http://${import.meta.env.VITE_AWS_PUBLIC_IPV4}:${PORT}/api/blogs?topic=${topic}`);
       setBlogs(response.data);
       setFiltering(true);
     } catch (error) {
